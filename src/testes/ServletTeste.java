@@ -18,9 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import conexao.Conexao;
-import global.crud.CRUDcad_recados;
-import global.dados.Recado;
-import server.aplicativo.CRUDrecado;
+
 
 /**
  * Servlet implementation class ServletTeste
@@ -75,11 +73,7 @@ public class ServletTeste extends HttpServlet {
 		Gson gson = new Gson();
 
 		
-		String serverName = "localhost";
-		CRUDrecado crud_recado = new CRUDrecado(serverName);
-		Recado recado = gson.fromJson(parametros.get("obj"), Recado.class); 
-		retornaObj(out , gson.toJsonTree(crud_recado.getRecados(recado)));
-
+		
 	}
 	
 	public void retornaObj(PrintWriter out, JsonElement jsonElement) {

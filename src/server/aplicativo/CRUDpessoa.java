@@ -23,7 +23,7 @@ public class CRUDpessoa {
 	}
 	
 	public Retorno postPessoa(Pessoa pessoa) {
-		Conexao conexao = new Conexao("duzani", serverName);
+		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		System.out.print(pessoa);
 				
@@ -41,7 +41,7 @@ public class CRUDpessoa {
 	}
 	
 	public Retorno getPessoa(Pessoa pessoa) {
-		Conexao conexao = new Conexao("duzani", serverName);
+		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		
 		try {
@@ -57,13 +57,13 @@ public class CRUDpessoa {
 		}
 	}
 	
-	public Retorno getPessoaEmail(Pessoa pessoa) {
-		Conexao conexao = new Conexao("duzani", serverName);
+	public Retorno getPessoaNome(Pessoa pessoa) {
+		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		
 		try {
 			CRUDcad_pessoas crud_pessoa = new CRUDcad_pessoas(conexao);
-			Pessoa pessoas = crud_pessoa.getPessoaEmail(pessoa);
+			Pessoa pessoas = crud_pessoa.getPessoaNome(pessoa);
 			return u.retorno("sucesso", "", "Sucesso ao retornar dados", pessoas, null);
 		} catch (Exception e) {
 			LogErros log = new LogErros();
@@ -74,8 +74,8 @@ public class CRUDpessoa {
 		}
 	}
 	
-	public Retorno insertFaceGoogle(Pessoa pessoa) {
-		Conexao conexao = new Conexao("duzani", serverName);
+	/*public Retorno insertFaceGoogle(Pessoa pessoa) {
+		Conexao conexao = new Conexao();
 		Util u = new Util();
 		
 		try {
@@ -92,7 +92,7 @@ public class CRUDpessoa {
 	}
 	
 	public Retorno verPessoaFaceGoogle(Pessoa pessoa) {
-		Conexao conexao = new Conexao("duzani", serverName);
+		Conexao conexao = new Conexao();
 		Util u = new Util();
 		
 		try {
@@ -106,6 +106,6 @@ public class CRUDpessoa {
 		} finally {
 			conexao.desconecta();
 		}
-	}
+	}*/
 
 }

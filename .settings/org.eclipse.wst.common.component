@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+        
     <wb-module deploy-name="ChaDeLingerie">
+                
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="ChaDeLingerie"/>
+                
         <property name="java-output-path" value="/ChaDeLingerie/build/classes"/>
+        <property name="context-root" value="Projetotc"/>
+            
     </wb-module>
+    
 </project-modules>

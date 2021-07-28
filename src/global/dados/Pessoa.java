@@ -7,17 +7,15 @@ public class Pessoa {
 	private String nome;
 	private String email;
 	private String cpf;
-	private String fotoperfil;
 	private String telefone;
-	private String tipofoto;
-	
-	
-	public String getTipofoto() {
-		return tipofoto;
-	}
-	public void setTipofoto(String tipofoto) {
-		this.tipofoto = tipofoto;
-	}
+	private String cep;
+	private String uf;
+	private String logradouro;
+	private String numero;
+	private String complemento;
+	private String bairro;
+	private String cidade;
+		
 	public int getIdpessoa() {
 		return idpessoa;
 	}
@@ -48,17 +46,53 @@ public class Pessoa {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public String getFotoperfil() {
-		return fotoperfil;
-	}
-	public void setFotoperfil(String fotoPerfil) {
-		this.fotoperfil = fotoPerfil;
-	}
 	public String getTelefone() {
 		return telefone;
 	}
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+	public String getCep() {
+		return cep;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+	public String getUf() {
+		return uf;
+	}
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+	public String getLogradouro() {
+		return logradouro;
+	}
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+	public String getNumero() {
+		return numero;
+	}
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+	public String getComplemento() {
+		return complemento;
+	}
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+	public String getBairro() {
+		return bairro;
+	}
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+	public String getCidade() {
+		return cidade;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 	
 	

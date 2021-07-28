@@ -20,7 +20,7 @@ public class CRUDusuario {
 	}
 	
 	public Retorno postUsuario(Usuario usuario) {
-		Conexao conexao = new Conexao("duzani", serverName);
+		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		System.out.print(usuario);
 				
@@ -38,7 +38,7 @@ public class CRUDusuario {
 	}
 	
 	public Retorno getLogin(Usuario usuario) {
-		Conexao conexao = new Conexao("duzani", serverName);
+		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		
 		try {
@@ -56,7 +56,7 @@ public class CRUDusuario {
 
 	public Retorno redefinirSenha(Usuario c) {
 		
-		Conexao conexao = new Conexao("duzani", serverName);
+		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		System.out.println(c.getEmail());
 		
@@ -97,7 +97,7 @@ public class CRUDusuario {
 	
 	public Retorno updateSenha(Usuario c, String md5) {
 		
-		Conexao conexao = new Conexao("duzani", serverName);
+		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		
 		try {

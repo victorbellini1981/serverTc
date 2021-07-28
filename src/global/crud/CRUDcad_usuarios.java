@@ -26,13 +26,12 @@ private Conexao conexao;
 		
 		try {
 
-			String sql =	"INSERT INTO chadl_usuarios(email, senha) VALUES \r\n" +
-							"(?,?);"; 
+			String sql =	"INSERT INTO cad_usuarios(email, senha) VALUES(?,?);"; 
 
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, usuario.getEmail());
 			pst.setString(2, usuario.getSenha());
-						
+									
 			/*
 			 * ResultSet rs = conexao.executaQuery(pst.toString());
 			 * 
@@ -42,15 +41,15 @@ private Conexao conexao;
 			 * }
 			 */
 			if (conexao.executaUpdate(pst.toString()).equalsIgnoreCase("ok")) {
-				sql = "select currval('chadl_usuarios_idusuario_seq') as id;";
+				sql = "select currval('cad_usuarios_idusuario_seq') as id;";
 				ResultSet rs = conexao.executaQuery(sql);
 				rs.next();
 				int iduser = 0;
 				iduser = rs.getInt("id");
-				sql = "INSERT INTO chadl_pessoas(idusuario) VALUES (" + iduser + ");";
+				sql = "INSERT INTO cad_pessoas(idusuario) VALUES (" + iduser + ");";
 				//conexao.executaUpdate(sql);
 				if (conexao.executaUpdate(sql).equalsIgnoreCase("ok")) {
-					sql = "select currval('chadl_pessoas_idpessoa_seq') as idp;";
+					sql = "select currval('cad_pessoas_idpessoa_seq') as idp;";
 					ResultSet rst = conexao.executaQuery(sql);
 					rst.next();
 					int idpessoa = 0;
@@ -85,8 +84,8 @@ private Conexao conexao;
 							"		u.email, \r\n" +
 							"		u.senha, \r\n" +
 							"		p.idpessoa \r\n" +
-							"FROM 	chadl_usuarios u \r\n" + 
-							"		INNER JOIN chadl_pessoas p \r\n" +
+							"FROM 	cad_usuarios u \r\n" + 
+							"		INNER JOIN cad_pessoas p \r\n" +
 							"		ON u.idusuario = p.idusuario \r\n" +
 							"WHERE 	u.email=? \r\n" +
 							"AND 	u.senha=?; ";
@@ -117,7 +116,7 @@ private Conexao conexao;
 	public boolean verificaEmailExistente(String email) {
 		try {	
 			System.out.println("entrou");
-			String sql = "SELECT email FROM chadl_usuarios WHERE email = ?";
+			String sql = "SELECT email FROM cad_usuarios WHERE email = ?";
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, email.toLowerCase());
 			
@@ -135,7 +134,7 @@ private Conexao conexao;
 		Usuario c = new Usuario();
 		try {
 			String sql = "SELECT email, idusuario " + 
-					" FROM chadl_usuarios " + 
+					" FROM cad_usuarios " + 
 					" WHERE email = '" + email + "' ";
 			
 			ResultSet res = conexao.executaQuery(sql);
@@ -166,7 +165,7 @@ private Conexao conexao;
 		try {
 			Email email = new Email();
 			email.setEnderecoEmailDestinatario(c.getEmail());
-			email.setAssunto("ChaDeLingerie - Redefinição de Senha");
+			email.setAssunto("Prevenção Cardíaca - Redefinição de Senha");
 			
 			email.setMensagem("Olá!<br/><br/>"
 					+ "Seu código para redefinição de senha é: <strong>" + codigo + "</strong><br/><br/>"
@@ -185,7 +184,7 @@ private Conexao conexao;
 		//this.conexao.iniciaTransacao();
 		boolean ok;
 		try {
-			String sql = "UPDATE chadl_usuarios SET senha = ? WHERE idusuario = ?";
+			String sql = "UPDATE cad_usuarios SET senha = ? WHERE idusuario = ?";
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, senha);
 			pst.setInt(2, idusuario);

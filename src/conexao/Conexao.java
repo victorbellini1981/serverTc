@@ -34,27 +34,21 @@ public class Conexao {
 	private boolean bdTeste = false;
 	private static List<ResultSetCache> resultSetCache = new LinkedList<ResultSetCache>();
 
-	public Conexao(String dominio, String serverName) {
+	public Conexao(String serverName) {
 		this.serverName = serverName;
+		
 		try {
 
-			String url = "jdbc:postgresql://agely-thanos-2.ck0qcie6zant.sa-east-1.rds.amazonaws.com:5432/agely_duzani";
-			String username = "agely";
-			String password = "4g3lyAWS";
+			String url = "jdbc:mysql://localhost:3307/tcc";
+			String username = "root";
+			String password = "123456";
 			
 			/*bdTeste = true;
 			String url = "jdbc:postgresql://agely-homologacao.c4iovzultfsd.sa-east-1.rds.amazonaws.com:5432/agely_homologacao_duzani";
 			String username = "agely";
 			String password = "4g3lyAWS";*/
 
-			if (serverName != null && ArrayUtils.indexOf(new String[] { "127.0.0.1", "teste.sistema.agely.com.br" }, serverName.toLowerCase()) != -1) {
-				bdTeste = true;
-				url = "jdbc:postgresql://agely-homologacao.c4iovzultfsd.sa-east-1.rds.amazonaws.com:5432/agely_homologacao_duzani";
-				username = "agely";
-				password = "4g3lyAWS";
-			}
-
-			Class.forName("org.postgresql.Driver").newInstance();
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
 			conexao = DriverManager.getConnection(url, username, password);
 
