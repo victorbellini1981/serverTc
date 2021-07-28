@@ -44,9 +44,9 @@ public class Conexao {
 			String username = "agely";
 			String password = "4g3lyAWS";*/
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName("org.mariadb.jdbc.Driver").newInstance();
 
-			conexao = DriverManager.getConnection("jdbc:mysql://localhost:3307/tcc", "root", "123456");
+			conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/tcc", "root", "123456");
 
 		} catch (Exception e) {
 			LogErros log = new LogErros();

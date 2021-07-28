@@ -49,6 +49,6 @@
 	<classpathentry kind="lib" path="C:/Users/Agely/Documents/MaterialTC/serverTc/WebContent/WEB-INF/lib/pagarme-java-1.5.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Agely/Documents/MaterialTC/serverTc/WebContent/WEB-INF/lib/postgresql-9.4.1208.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Agely/Documents/MaterialTC/serverTc/WebContent/WEB-INF/lib/protobuf-java-3.11.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Agely/Documents/MaterialTC/serverTc/WebContent/WEB-INF/lib/mysql-connector-java-8.0.26.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Agely/Documents/MaterialTC/serverTc/WebContent/WEB-INF/lib/mariadb-java-client-2.7.3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
