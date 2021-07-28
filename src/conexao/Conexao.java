@@ -39,18 +39,14 @@ public class Conexao {
 		
 		try {
 
-			String url = "jdbc:mysql://localhost:3307/tcc";
-			String username = "root";
-			String password = "123456";
-			
 			/*bdTeste = true;
 			String url = "jdbc:postgresql://agely-homologacao.c4iovzultfsd.sa-east-1.rds.amazonaws.com:5432/agely_homologacao_duzani";
 			String username = "agely";
 			String password = "4g3lyAWS";*/
 
-			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-			conexao = DriverManager.getConnection(url, username, password);
+			conexao = DriverManager.getConnection("jdbc:mysql://localhost:3307/tcc", "root", "123456");
 
 		} catch (Exception e) {
 			LogErros log = new LogErros();
