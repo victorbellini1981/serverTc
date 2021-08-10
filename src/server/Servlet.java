@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import global.dados.Pessoa;
+import global.dados.Paciente;
 import global.dados.UploadArquivo;
 import global.dados.Usuario;
 import global.util.UploadServlet;
@@ -77,34 +77,34 @@ public class Servlet extends HttpServlet {
 		if (metodo.equals("GetVersaoMobile")) {
 			retornaObj(out, gson.toJsonTree("teste"));
 		}
-		else if (metodo.equals("PostUsuario")) {
+		else if (metodo.equals("PostUsuarioP")) {
 			CRUDusuario crud_usuario = new CRUDusuario(serverName);
 			/*String email = parametros.get("email");
 			String senha = parametros.get("senha");*/
 			Usuario usuario = gson.fromJson(parametros.get("obj"), Usuario.class); 
-			retornaObj(out , gson.toJsonTree(crud_usuario.postUsuario(usuario)));
+			retornaObj(out , gson.toJsonTree(crud_usuario.postUsuarioP(usuario)));
 		}
-		else if (metodo.equals("GetLogin")) {
+		else if (metodo.equals("GetLoginP")) {
 			CRUDusuario crud_usuario = new CRUDusuario(serverName);
 			Usuario usuario = gson.fromJson(parametros.get("obj"), Usuario.class); 
-			retornaObj(out , gson.toJsonTree(crud_usuario.getLogin(usuario)));
+			retornaObj(out , gson.toJsonTree(crud_usuario.getLoginP(usuario)));
 		}		
-		else if (metodo.equals("PostPessoa")) {
-			CRUDpessoa crud_pessoa = new CRUDpessoa(serverName);
+		else if (metodo.equals("PostPaciente")) {
+			CRUDpaciente crud_pessoa = new CRUDpaciente(serverName);
 			/*String email = parametros.get("email");
 			String senha = parametros.get("senha");*/
-			Pessoa pessoa = gson.fromJson(parametros.get("obj"), Pessoa.class); 
-			retornaObj(out , gson.toJsonTree(crud_pessoa.postPessoa(pessoa)));
+			Paciente pessoa = gson.fromJson(parametros.get("obj"), Paciente.class); 
+			retornaObj(out , gson.toJsonTree(crud_pessoa.postPaciente(pessoa)));
 		}
-		else if (metodo.equals("GetPessoa")) {
-			CRUDpessoa crud_pessoa = new CRUDpessoa(serverName);
-			Pessoa pessoa = gson.fromJson(parametros.get("obj"), Pessoa.class); 
-			retornaObj(out , gson.toJsonTree(crud_pessoa.getPessoa(pessoa)));
+		else if (metodo.equals("GetPaciente")) {
+			CRUDpaciente crud_pessoa = new CRUDpaciente(serverName);
+			Paciente pessoa = gson.fromJson(parametros.get("obj"), Paciente.class); 
+			retornaObj(out , gson.toJsonTree(crud_pessoa.getPaciente(pessoa)));
 		}
-		else if (metodo.equals("GetPessoaNome")) {
-			CRUDpessoa crud_pessoa = new CRUDpessoa(serverName);
-			Pessoa pessoa = gson.fromJson(parametros.get("obj"), Pessoa.class); 
-			retornaObj(out , gson.toJsonTree(crud_pessoa.getPessoaNome(pessoa)));
+		else if (metodo.equals("GetPacienteNome")) {
+			CRUDpaciente crud_pessoa = new CRUDpaciente(serverName);
+			Paciente pessoa = gson.fromJson(parametros.get("obj"), Paciente.class); 
+			retornaObj(out , gson.toJsonTree(crud_pessoa.getPacienteNome(pessoa)));
 		}
 		
 		else if(metodo.equals("Upload")) {

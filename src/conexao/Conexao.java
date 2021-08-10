@@ -46,7 +46,7 @@ public class Conexao {
 
 			Class.forName("org.mariadb.jdbc.Driver").newInstance();
 
-			conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/tcc", "root", "123456");
+			conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/tcc?user=root&password=123456");
 
 		} catch (Exception e) {
 			LogErros log = new LogErros();
@@ -66,14 +66,13 @@ public class Conexao {
 		}
 	}
 
-	public ResultSet executaQuery(String sql) {
+	public ResultSet executaQuery(PreparedStatement pst) {
 		try {
-			instrucao = conexao.createStatement();
-			resultado = instrucao.executeQuery(sql);
+			resultado = pst.executeQuery();
 			return resultado;
 		} catch (SQLException ex) {
 			LogErros log = new LogErros();
-			log.gravarLogErro(ex, serverName, "Erro SQL " + sql + " - " + ex.getMessage());
+			log.gravarLogErro(ex, serverName, "Erro SQL " + "" + " - " + ex.getMessage());
 			return null;
 		} catch (Exception e) {
 			LogErros log = new LogErros();
@@ -155,14 +154,14 @@ public class Conexao {
 		return resultSet;
 	}
 
-	public String executaUpdate(String Sql) {
+	public String executaUpdate(PreparedStatement pst) {
 		try {
-			instrucao = conexao.createStatement();
-			instrucao.executeUpdate(Sql);
+			pst.execute();
+			pst.close();
 			return "ok";
 		} catch (SQLException ex) {
 			LogErros log = new LogErros();
-			log.gravarLogErro(ex, serverName, "Erro SQL " + Sql + " - " + ex.getMessage());
+			log.gravarLogErro(ex, serverName, "Erro SQL " + "" + " - " + ex.getMessage());
 			return "erro-" + ex.getMessage();
 		} catch (Exception e) {
 			LogErros log = new LogErros();
@@ -249,52 +248,34 @@ public class Conexao {
 		}
 	}
 
-	public String executaInsert(String sql, String chave_seq) {
-		// TesteAws testeaws = new TesteAws();
-		String resp = "";
-		try {
-			instrucao = conexao.createStatement();
-			instrucao.executeUpdate(sql);
-			// testeaws.executaTesteAws(sql);
-
-			ResultSet resultado = executaQuery("select currval('" + chave_seq + "') as cod");
-			// objeto p/ retorna nomes das colunas
-			if (resultado.next()) {
-				resp = String.valueOf(resultado.getInt(1));
-			}
-
-			return resp;
-		} catch (SQLException ex) {
-			if (conexao != null) {
-				LogErros log = new LogErros();
-				log.gravarLogErro(ex, serverName, "Erro SQL " + sql + " - " + ex.getMessage());
-				desconecta();
-			}
-			return "erro-" + ex.getMessage();
-		} catch (Exception e) {
-			if (conexao != null) {
-				LogErros log = new LogErros();
-				log.gravarLogErro(e, serverName, "Erro " + e.getMessage());
-				desconecta();
-			}
-			return "erro-" + e.getMessage();
-		}
-
-	}
-
-	public String executaInsert(String sql, String tabela, String chave) {
-
-		return executaInsert(sql, tabela + "_" + chave + "_seq");
-	}
-
-	public Object transformResultSetToObject(Class classe, ResultSet resultSet, boolean colection) throws Exception {
-		if (colection) {
-			return resultSetToObjectList(classe, resultSet);
-		} else {
-			return resultSetToObject(classe, resultSet);
-		}
-	}
-
+	/*
+	 * public String executaInsert(String sql, String chave_seq) { // TesteAws
+	 * testeaws = new TesteAws(); String resp = ""; try { instrucao =
+	 * conexao.createStatement(); instrucao.executeUpdate(sql); //
+	 * testeaws.executaTesteAws(sql);
+	 * 
+	 * ResultSet resultado = executaQuery("select currval('" + chave_seq +
+	 * "') as cod"); // objeto p/ retorna nomes das colunas if (resultado.next()) {
+	 * resp = String.valueOf(resultado.getInt(1)); }
+	 * 
+	 * return resp; } catch (SQLException ex) { if (conexao != null) { LogErros log
+	 * = new LogErros(); log.gravarLogErro(ex, serverName, "Erro SQL " + sql + " - "
+	 * + ex.getMessage()); desconecta(); } return "erro-" + ex.getMessage(); } catch
+	 * (Exception e) { if (conexao != null) { LogErros log = new LogErros();
+	 * log.gravarLogErro(e, serverName, "Erro " + e.getMessage()); desconecta(); }
+	 * return "erro-" + e.getMessage(); }
+	 * 
+	 * }
+	 * 
+	 * public String executaInsert(String sql, String tabela, String chave) {
+	 * 
+	 * return executaInsert(sql, tabela + "_" + chave + "_seq"); }
+	 * 
+	 * public Object transformResultSetToObject(Class classe, ResultSet resultSet,
+	 * boolean colection) throws Exception { if (colection) { return
+	 * resultSetToObjectList(classe, resultSet); } else { return
+	 * resultSetToObject(classe, resultSet); } }
+	 */
 	private Object resultSetToObjectList(Class classe, ResultSet resultSet) throws Exception {
 		LinkedList<Object> objectRetorno_list = new LinkedList<Object>();
 

@@ -21,7 +21,7 @@ private Conexao conexao;
 		
 	}
 	
-	public Usuario insert(Usuario usuario) {
+	public Usuario insertUserP(Usuario usuario) {
 		this.conexao.iniciaTransacao();
 		
 		try {
@@ -31,6 +31,8 @@ private Conexao conexao;
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, usuario.getEmail());
 			pst.setString(2, usuario.getSenha());
+			
+			
 									
 			/*
 			 * ResultSet rs = conexao.executaQuery(pst.toString());
@@ -40,21 +42,24 @@ private Conexao conexao;
 			 * 
 			 * }
 			 */
-			if (conexao.executaUpdate(pst.toString()).equalsIgnoreCase("ok")) {
-				sql = "select currval('cad_usuarios_idusuario_seq') as id;";
-				ResultSet rs = conexao.executaQuery(sql);
+			if (conexao.executaUpdate(pst).equalsIgnoreCase("ok")) {
+				sql = "select last_insert_id() as id from cad_usuarios;";
+				PreparedStatement pst1 = conexao.sqlPreparada(sql);
+				ResultSet rs = conexao.executaQuery(pst1);
 				rs.next();
 				int iduser = 0;
 				iduser = rs.getInt("id");
-				sql = "INSERT INTO cad_pessoas(idusuario) VALUES (" + iduser + ");";
+				sql = "INSERT INTO cad_pacientes(idusuario) VALUES (" + iduser + ");";
+				PreparedStatement pst2 = conexao.sqlPreparada(sql);
 				//conexao.executaUpdate(sql);
-				if (conexao.executaUpdate(sql).equalsIgnoreCase("ok")) {
-					sql = "select currval('cad_pessoas_idpessoa_seq') as idp;";
-					ResultSet rst = conexao.executaQuery(sql);
+				if (conexao.executaUpdate(pst2).equalsIgnoreCase("ok")) {
+					sql = "select last_insert_id() as idp from cad_pacientes;";
+					PreparedStatement pst3 = conexao.sqlPreparada(sql);
+					ResultSet rst = conexao.executaQuery(pst3);
 					rst.next();
 					int idpessoa = 0;
 					idpessoa = rst.getInt("idp");
-					usuario.setIdpessoa(idpessoa);
+					usuario.setIdpaciente(idpessoa);
 				}
 				
 				conexao.confirmaTransacao();
@@ -65,7 +70,6 @@ private Conexao conexao;
 				return usuario;
 			}
 			
-			
 			//conexao.executaUpdate(pst.toString());
 		} catch (Exception e) {
 			LogErros log = new LogErros();
@@ -75,7 +79,7 @@ private Conexao conexao;
 		
 	}
 
-	public Usuario getLogin(Usuario usuario) {
+	public Usuario getLoginP(Usuario usuario) {
 
 				
 		try {
@@ -83,9 +87,9 @@ private Conexao conexao;
 			String sql =	"SELECT u.idusuario, \r\n" + 
 							"		u.email, \r\n" +
 							"		u.senha, \r\n" +
-							"		p.idpessoa \r\n" +
+							"		p.idpaciente \r\n" +
 							"FROM 	cad_usuarios u \r\n" + 
-							"		INNER JOIN cad_pessoas p \r\n" +
+							"		INNER JOIN cad_pacientes p \r\n" +
 							"		ON u.idusuario = p.idusuario \r\n" +
 							"WHERE 	u.email=? \r\n" +
 							"AND 	u.senha=?; ";
@@ -94,13 +98,13 @@ private Conexao conexao;
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, usuario.getEmail());
 			pst.setString(2, usuario.getSenha());
-			ResultSet rs = conexao.executaQuery(pst.toString());
+			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
 				usuario.setIdusuario(rs.getInt("idusuario"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
-				usuario.setIdpessoa(rs.getInt("idpessoa"));
+				usuario.setIdpaciente(rs.getInt("idpaciente"));
 								
 			}
 			
@@ -120,7 +124,7 @@ private Conexao conexao;
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, email.toLowerCase());
 			
-			ResultSet rs = conexao.executaQuery(pst.toString());
+			ResultSet rs = conexao.executaQuery(pst);
 			
 			return rs.next();
 		} catch (Exception e) {
@@ -137,7 +141,9 @@ private Conexao conexao;
 					" FROM cad_usuarios " + 
 					" WHERE email = '" + email + "' ";
 			
-			ResultSet res = conexao.executaQuery(sql);
+			PreparedStatement pst = conexao.sqlPreparada(sql);
+			
+			ResultSet res = conexao.executaQuery(pst);
 			if(res.next()) {
 				c.setIdusuario(res.getInt("idusuario"));
 				c.setEmail(res.getString("email"));
@@ -165,7 +171,7 @@ private Conexao conexao;
 		try {
 			Email email = new Email();
 			email.setEnderecoEmailDestinatario(c.getEmail());
-			email.setAssunto("Prevenção Cardíaca - Redefinição de Senha");
+			email.setAssunto("Heart's Health - Redefinição de Senha");
 			
 			email.setMensagem("Olá!<br/><br/>"
 					+ "Seu código para redefinição de senha é: <strong>" + codigo + "</strong><br/><br/>"
@@ -190,7 +196,11 @@ private Conexao conexao;
 			pst.setInt(2, idusuario);
 			
 			//conexao.confirmaTransacao();			
-			return conexao.executaUpdate(pst.toString()).equals("ok");
+			if (conexao.executaUpdate(pst).equalsIgnoreCase("ok")) {
+				return true;
+			} else {
+				return false;
+			}
 		} catch (Exception e) {
 			LogErros log = new LogErros();
             log.gravarLogErro(e,"MOBILE", "Erro " + e.getMessage());

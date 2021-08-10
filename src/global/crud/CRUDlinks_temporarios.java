@@ -16,20 +16,19 @@ public class CRUDlinks_temporarios {
 	}
 	
 	public boolean insert (LinkTemporario lt) {
-		boolean ok;
+		boolean ok = false;
 		try {
 			System.out.println("entrou insert");
-			String sql = "INSERT INTO chadl_links_temporarios (idusuario, md5, tipo_link, data_expiracao) "
-					+ "VALUES ( ?, ?, ?, now() + interval '4 hour')";
+			String sql = "INSERT INTO links_temporarios (idusuario, md5, tipo_link, data_expiracao) "
+					+ "VALUES ( ?, ?, ?, ADDDATE(NOW(), INTERVAL 4 HOUR))";
 			System.out.println(sql);
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setInt(1, lt.getIdusuario());
 			pst.setString(2, lt.getMd5());
 			pst.setString(3, lt.getTipo_link());
 			
-			ok = conexao.executaUpdate(pst.toString()).equals("ok");
-			
-			pst.close();			
+			if (conexao.executaUpdate(pst).equalsIgnoreCase("ok")) {
+				ok = true; }
 			return ok;
 		} catch (Exception e) {
 			LogErros log = new LogErros();
@@ -50,7 +49,7 @@ public class CRUDlinks_temporarios {
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 
 			
-			ResultSet rs = conexao.executaQuery(pst.toString());
+			ResultSet rs = conexao.executaQuery(pst);
 			
 			if(rs.next()) {
 				lt = new LinkTemporario();
@@ -74,10 +73,13 @@ public class CRUDlinks_temporarios {
 		try {
 			
 			String sql = "UPDATE chadl_links_temporarios SET expirado = true WHERE idlink = " + idlink;
+			PreparedStatement pst = conexao.sqlPreparada(sql);
 			
-			ok = conexao.executaUpdate(sql).equals("ok");
-			
-			return ok;
+			if (conexao.executaUpdate(pst).equalsIgnoreCase("ok")) {
+				return true;
+			} else {
+				return false;
+			}
 		} catch (Exception e) {
 			LogErros log = new LogErros();
 			log.gravarLogErro(e, "Duzani", "Erro " + e.getMessage());

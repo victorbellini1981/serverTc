@@ -1,8 +1,8 @@
 package global.dados;
 
-public class Pessoa {
+public class Paciente {
 	
-	private int idpessoa;
+	private int idpaciente;
 	private int idusuario;
 	private String nome;
 	private String email;
@@ -16,11 +16,11 @@ public class Pessoa {
 	private String bairro;
 	private String cidade;
 		
-	public int getIdpessoa() {
-		return idpessoa;
+	public int getIdpaciente() {
+		return idpaciente;
 	}
-	public void setIdpessoa(int idpessoa) {
-		this.idpessoa = idpessoa;
+	public void setIdpaciente(int idpaciente) {
+		this.idpaciente = idpaciente;
 	}
 	public int getIdusuario() {
 		return idusuario;

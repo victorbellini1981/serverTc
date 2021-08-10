@@ -26,9 +26,9 @@ public class EnviaEmail {
 		email.setEnderecoEmailRemetente("joaovictorbellini33@gmail.com");
 		email.setSenha("Jvmb1981");*/
 		
-		email.setServidor("mail.agely.com.br");
-		email.setEnderecoEmailRemetente("contato@agely.com.br");
-		email.setSenha("a1g2e3l4y5");
+		email.setServidor("smtp.gmail.com");
+		email.setEnderecoEmailRemetente("joaovictorbellini33@gmail.com");
+		email.setSenha("Jvmb1981");
 		
 		HtmlEmail simpleEmail = new HtmlEmail();
 
@@ -37,7 +37,7 @@ public class EnviaEmail {
         	simpleEmail.setHostName(email.getServidor());  
         	simpleEmail.setAuthentication(email.getEnderecoEmailRemetente(), email.getSenha());  
         	simpleEmail.setSSL(false);  
-        	simpleEmail.setSmtpPort(587);
+        	simpleEmail.setSmtpPort(465);
         	/*simpleEmail.setSSL(true);  
         	simpleEmail.setSmtpPort(465);*/
         	simpleEmail.addTo(email.getEnderecoEmailDestinatario()); 

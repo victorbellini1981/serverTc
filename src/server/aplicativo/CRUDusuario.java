@@ -19,14 +19,14 @@ public class CRUDusuario {
 		this.serverName = serverName;
 	}
 	
-	public Retorno postUsuario(Usuario usuario) {
+	public Retorno postUsuarioP(Usuario usuario) {
 		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		System.out.print(usuario);
 				
 		try {
 			CRUDcad_usuarios crud_usuario = new CRUDcad_usuarios(conexao);
-			Usuario usuarios = crud_usuario.insert(usuario);
+			Usuario usuarios = crud_usuario.insertUserP(usuario);
 			return u.retorno("sucesso", "", "Sucesso ao retornar dados", usuarios, null);
 		} catch (Exception e) {
 			LogErros log = new LogErros();
@@ -37,13 +37,13 @@ public class CRUDusuario {
 		}
 	}
 	
-	public Retorno getLogin(Usuario usuario) {
+	public Retorno getLoginP(Usuario usuario) {
 		Conexao conexao = new Conexao(serverName);
 		Util u = new Util();
 		
 		try {
 			CRUDcad_usuarios crud_usuario = new CRUDcad_usuarios(conexao);
-			Usuario usuarios = crud_usuario.getLogin(usuario);
+			Usuario usuarios = crud_usuario.getLoginP(usuario);
 				return u.retorno("sucesso", "", "Sucesso ao retornar dados", usuarios, null);
 		} catch (Exception e) {
 			LogErros log = new LogErros();
@@ -76,7 +76,7 @@ public class CRUDusuario {
 			LinkTemporario lt = new LinkTemporario();
 			lt.setIdusuario(c.getIdusuario());
 			lt.setMd5(Integer.toString(codigo));
-			lt.setTipo_link("ChaDeLingerie-redefinicao-senha");
+			lt.setTipo_link("Heart's Health-redefinicao-senha");
 			System.out.println(lt.getIdusuario());
 			
 			ok = crud_links.insert(lt);

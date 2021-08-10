@@ -2,7 +2,8 @@ package global.dados;
 
 public class Usuario {
 	private int idusuario;
-	private int idpessoa;
+	private int idpaciente;
+	private int idmedico;
 	private String email;
 	private String senha;
 		
@@ -12,11 +13,17 @@ public class Usuario {
 	public void setIdusuario(int idusuario) {
 		this.idusuario = idusuario;
 	}
-	public int getIdpessoa() {
-		return idpessoa;
+	public int getIdpaciente() {
+		return idpaciente;
 	}
-	public void setIdpessoa(int idpessoa) {
-		this.idpessoa = idpessoa;
+	public void setIdpaciente(int idpaciente) {
+		this.idpaciente = idpaciente;
+	}
+	public int getIdmedico() {
+		return idmedico;
+	}
+	public void setIdmedico(int idmedico) {
+		this.idmedico = idmedico;
 	}
 	public String getEmail() {
 		return email;

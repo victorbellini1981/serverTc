@@ -4,24 +4,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import conexao.Conexao;
-import global.dados.Pessoa;
+import global.dados.Paciente;
 import global.util.LogErros;
 
-public class CRUDcad_pessoas {
+public class CRUDcad_pacientes {
 	
 private Conexao conexao;
 	
-	public CRUDcad_pessoas(Conexao conexao) {
+	public CRUDcad_pacientes(Conexao conexao) {
 		this.conexao = conexao;
 		this.conexao.iniciaTransacao();
 	}
 	
-	public Pessoa update(Pessoa pessoa) {
+	public Paciente update(Paciente pessoa) {
 
 		
 		try {
 
-				String sql =	"UPDATE cad_pessoas \r\n" + 
+				String sql =	"UPDATE cad_pacientes \r\n" + 
 								"SET    nome = ?, \r\n" +
 								"		email = ?, \r\n" +
 								"		cpf = ?, \r\n" +
@@ -33,7 +33,7 @@ private Conexao conexao;
 								"		complemento = ?, \r\n" +
 								"		bairro = ?, \r\n" +
 								"		cidade = ? \r\n" +
-								"WHERE 	idpessoa = ?;"; 
+								"WHERE 	idpaciente = ?;"; 
 
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, pessoa.getNome());
@@ -47,10 +47,10 @@ private Conexao conexao;
 			pst.setString(9, pessoa.getComplemento());
 			pst.setString(10, pessoa.getBairro());
 			pst.setString(11, pessoa.getCidade());
-			pst.setInt(12, pessoa.getIdpessoa());
+			pst.setInt(12, pessoa.getIdpaciente());
 			
 			
-			if (conexao.executaUpdate(pst.toString()).equalsIgnoreCase("ok")) {
+			if (conexao.executaUpdate(pst).equalsIgnoreCase("ok")) {
 				
 				conexao.confirmaTransacao();
 				return pessoa;
@@ -106,7 +106,7 @@ private Conexao conexao;
 	}*/
 
 	
-	public Pessoa getPessoa(Pessoa pessoa) {
+	public Paciente getPaciente(Paciente pessoa) {
 
 		
 		try {
@@ -123,14 +123,14 @@ private Conexao conexao;
 							"		p.complemento, \r\n" +
 							"		p.bairro, \r\n" +
 							"		p.cidade \r\n" +
-							"FROM 	cad_pessoas p \r\n" + 
-							"WHERE 	p.idpessoa=?;";
+							"FROM 	cad_pacientes p \r\n" + 
+							"WHERE 	p.idpaciente=?;";
 							
 		
 			
 			PreparedStatement pst = conexao.sqlPreparada(sql);
-			pst.setInt(1, pessoa.getIdpessoa());
-			ResultSet rs = conexao.executaQuery(pst.toString());
+			pst.setInt(1, pessoa.getIdpaciente());
+			ResultSet rs = conexao.executaQuery(pst);
 
 			while (rs.next()) {
 				pessoa.setIdusuario(rs.getInt("idusuario"));
@@ -196,13 +196,13 @@ private Conexao conexao;
 
 	}*/
 
-	public Pessoa getPessoaNome(Pessoa pessoa) {
+	public Paciente getPacienteNome(Paciente pessoa) {
 	
 		
 		try {
 	
 			String sql =	"SELECT p.idusuario, \r\n" + 
-							"		p.idpessoa, \r\n" +
+							"		p.idpaciente, \r\n" +
 							"		p.email, \r\n" + 
 							"		p.cpf, \r\n" +
 							"		p.telefone, \r\n" +
@@ -213,18 +213,18 @@ private Conexao conexao;
 							"		p.complemento, \r\n" +
 							"		p.bairro, \r\n" +
 							"		p.cidade \r\n" +
-							"FROM 	cad_pessoas p \r\n" + 
+							"FROM 	cad_pacientes p \r\n" + 
 							"WHERE 	p.nome=?;";
 							
 		
 			
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, pessoa.getNome());
-			ResultSet rs = conexao.executaQuery(pst.toString());
+			ResultSet rs = conexao.executaQuery(pst);
 	
 			while (rs.next()) {
 				pessoa.setIdusuario(rs.getInt("idusuario"));
-				pessoa.setIdpessoa(rs.getInt("idpessoa"));
+				pessoa.setIdpaciente(rs.getInt("idpaciente"));
 				pessoa.setNome(rs.getString("email"));
 				pessoa.setCpf(rs.getString("cpf"));
 				pessoa.setTelefone(rs.getString("telefone"));
