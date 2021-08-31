@@ -26,12 +26,18 @@ private Conexao conexao;
 		
 		try {
 
-			String sql =	"INSERT INTO cad_usuarios(email, senha) VALUES(?,?);"; 
+			String sql =	"INSERT INTO cad_usuarios(email, senha, nome, idade, altura, peso, cpf, telefone) \r\n"
+						  + "VALUES(?,?,?,?,?,?,?,?);"; 
 
 			PreparedStatement pst = conexao.sqlPreparada(sql);
 			pst.setString(1, usuario.getEmail());
 			pst.setString(2, usuario.getSenha());
-			
+			pst.setString(3, usuario.getNome());
+			pst.setString(4, usuario.getIdade());
+			pst.setString(5, usuario.getAltura());
+			pst.setString(6, usuario.getPeso());
+			pst.setString(7, usuario.getCpf());
+			pst.setString(8, usuario.getTelefone());
 			
 									
 			/*
@@ -49,18 +55,7 @@ private Conexao conexao;
 				rs.next();
 				int iduser = 0;
 				iduser = rs.getInt("id");
-				sql = "INSERT INTO cad_pacientes(idusuario) VALUES (" + iduser + ");";
-				PreparedStatement pst2 = conexao.sqlPreparada(sql);
-				//conexao.executaUpdate(sql);
-				if (conexao.executaUpdate(pst2).equalsIgnoreCase("ok")) {
-					sql = "select last_insert_id() as idp from cad_pacientes;";
-					PreparedStatement pst3 = conexao.sqlPreparada(sql);
-					ResultSet rst = conexao.executaQuery(pst3);
-					rst.next();
-					int idpessoa = 0;
-					idpessoa = rst.getInt("idp");
-					usuario.setIdpaciente(idpessoa);
-				}
+				usuario.setIdusuario(iduser);
 				
 				conexao.confirmaTransacao();
 				return usuario;
@@ -87,10 +82,8 @@ private Conexao conexao;
 			String sql =	"SELECT u.idusuario, \r\n" + 
 							"		u.email, \r\n" +
 							"		u.senha, \r\n" +
-							"		p.idpaciente \r\n" +
+							"		u.nome \r\n" +
 							"FROM 	cad_usuarios u \r\n" + 
-							"		INNER JOIN cad_pacientes p \r\n" +
-							"		ON u.idusuario = p.idusuario \r\n" +
 							"WHERE 	u.email=? \r\n" +
 							"AND 	u.senha=?; ";
 		
@@ -104,7 +97,7 @@ private Conexao conexao;
 				usuario.setIdusuario(rs.getInt("idusuario"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
-				usuario.setIdpaciente(rs.getInt("idpaciente"));
+				usuario.setNome(rs.getString("nome"));
 								
 			}
 			
@@ -116,6 +109,46 @@ private Conexao conexao;
 		}
 
 	}
+	
+	public Usuario getDadosPaciente(Usuario usuario) {
+
+		
+		try {
+
+			String sql =	"SELECT u.idusuario, \r\n" + 
+							"		u.nome, \r\n" +
+							"		u.idade, \r\n" +
+							"		u.altura, \r\n" +
+							"		u.peso, \r\n" +
+							"		u.cpf \r\n" +
+							"FROM 	cad_usuarios u \r\n" + 
+							"WHERE 	u.nome=?; ";
+		
+			
+			PreparedStatement pst = conexao.sqlPreparada(sql);
+			pst.setString(1, usuario.getNome());
+			
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				usuario.setIdusuario(rs.getInt("idusuario"));
+				usuario.setNome(rs.getString("nome"));
+				usuario.setIdade(rs.getString("idade"));
+				usuario.setAltura(rs.getString("altura"));
+				usuario.setPeso(rs.getString("peso"));
+				usuario.setCpf(rs.getString("cpf"));
+								
+			}
+			
+			return usuario;
+		} catch (Exception e) {
+			LogErros log = new LogErros();
+			log.gravarLogErro(e, "MOBILE", "Erro " + e.getMessage());
+			return usuario;
+		}
+
+	}
+
 	
 	public boolean verificaEmailExistente(String email) {
 		try {	

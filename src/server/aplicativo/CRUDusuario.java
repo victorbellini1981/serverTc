@@ -54,6 +54,23 @@ public class CRUDusuario {
 		}
 	}
 
+	public Retorno getDadosPaciente(Usuario usuario) {
+		Conexao conexao = new Conexao(serverName);
+		Util u = new Util();
+		
+		try {
+			CRUDcad_usuarios crud_usuario = new CRUDcad_usuarios(conexao);
+			Usuario usuarios = crud_usuario.getDadosPaciente(usuario);
+				return u.retorno("sucesso", "", "Sucesso ao retornar dados", usuarios, null);
+		} catch (Exception e) {
+			LogErros log = new LogErros();
+			log.gravarLogErro(e, "MOBILE", "Erro " + e.getMessage());
+			return u.retorno("erro", "", "Erro ao retornar produto", null, null);
+		} finally {
+			conexao.desconecta();
+		}
+	}
+	
 	public Retorno redefinirSenha(Usuario c) {
 		
 		Conexao conexao = new Conexao(serverName);

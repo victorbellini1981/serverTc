@@ -20,6 +20,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import global.dados.Atividade;
+import global.dados.Batimento;
 import global.dados.Paciente;
 import global.dados.UploadArquivo;
 import global.dados.Usuario;
@@ -88,7 +91,12 @@ public class Servlet extends HttpServlet {
 			CRUDusuario crud_usuario = new CRUDusuario(serverName);
 			Usuario usuario = gson.fromJson(parametros.get("obj"), Usuario.class); 
 			retornaObj(out , gson.toJsonTree(crud_usuario.getLoginP(usuario)));
-		}		
+		}
+		else if (metodo.equals("GetDadosPaciente")) {
+			CRUDusuario crud_usuario = new CRUDusuario(serverName);
+			Usuario usuario = gson.fromJson(parametros.get("obj"), Usuario.class); 
+			retornaObj(out , gson.toJsonTree(crud_usuario.getDadosPaciente(usuario)));
+		}	
 		else if (metodo.equals("PostPaciente")) {
 			CRUDpaciente crud_pessoa = new CRUDpaciente(serverName);
 			/*String email = parametros.get("email");
@@ -106,7 +114,26 @@ public class Servlet extends HttpServlet {
 			Paciente pessoa = gson.fromJson(parametros.get("obj"), Paciente.class); 
 			retornaObj(out , gson.toJsonTree(crud_pessoa.getPacienteNome(pessoa)));
 		}
-		
+		else if (metodo.equals("PostAtividade")) {
+			CRUDatividade crud_atividade = new CRUDatividade(serverName);
+			Atividade atividade = gson.fromJson(parametros.get("obj"), Atividade.class); 
+			retornaObj(out , gson.toJsonTree(crud_atividade.postAtividade(atividade)));
+		}
+		else if (metodo.equals("UpAtividade")) {
+			CRUDatividade crud_atividade = new CRUDatividade(serverName);
+			Atividade atividade = gson.fromJson(parametros.get("obj"), Atividade.class); 
+			retornaObj(out , gson.toJsonTree(crud_atividade.update(atividade)));
+		}		
+		else if (metodo.equals("GetBatimentos")) {
+			CRUDbatimento crud_batimento = new CRUDbatimento(serverName);
+			Batimento batimento = gson.fromJson(parametros.get("obj"), Batimento.class);
+			retornaObj(out , gson.toJsonTree(crud_batimento.getBatimentos(batimento)));
+		}
+		else if (metodo.equals("GetAtividades")) {
+			CRUDatividade crud_atividade = new CRUDatividade(serverName);
+			Atividade atividade = gson.fromJson(parametros.get("obj"), Atividade.class); 
+			retornaObj(out , gson.toJsonTree(crud_atividade.getAtividades(atividade)));
+		}
 		else if(metodo.equals("Upload")) {
 			String retorno = uploadArquivos(request, parametros);
 			out.println(retorno);
